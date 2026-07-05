@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jaureo — The Autonomous Fleet of Dallas–Fort Worth</title>
+<meta name="description" content="Jaureo operates Tesla Cybercab fleets on the Tesla Robotaxi network across Dallas–Fort Worth. Driverless. Electric. Gold standard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --obsidian:#0A0A0B;
+  --panel:#101013;
+  --line:rgba(216,179,106,.16);
+  --line-soft:rgba(243,240,233,.07);
+  --gold:#D8B36A;
+  --gold-dim:#9C8149;
+  --bone:#F3F0E9;
+  --muted:#8B867B;
+  --ink:#0A0A0B;
+  --max:1280px;
+  --pad:clamp(20px,4vw,56px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--obsidian);
+  color:var(--bone);
+  font-family:"Archivo",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--gold);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+.serif{font-family:"Instrument Serif",serif;font-style:italic;font-weight:400;color:var(--gold)}
+.mono{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- NAV ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px var(--pad);
+  background:linear-gradient(to bottom,rgba(10,10,11,.92),rgba(10,10,11,0));
+  backdrop-filter:blur(2px);
+}
+.logo{display:flex;align-items:baseline;gap:10px}
+.logo b{font-weight:800;font-size:19px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone)}
+.logo b i{font-style:normal;color:var(--gold)}
+.navlinks{display:flex;gap:34px}
+.navlinks a{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:color .25s}
+.navlinks a:hover,.navlinks a:focus-visible{color:var(--gold)}
+.navcta{
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink);background:var(--gold);
+  padding:10px 20px;border-radius:2px;font-weight:600;
+  transition:background .25s;
+}
+.navcta:hover{background:var(--bone)}
+@media(max-width:820px){.navlinks{display:none}}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 var(--pad) clamp(48px,8vh,90px);
+  overflow:hidden;
+}
+.grid-bg{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(243,240,233,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(243,240,233,.035) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse 90% 80% at 60% 40%,#000 30%,transparent 75%);
+}
+.route{position:absolute;inset:0;width:100%;height:100%}
+.route path.trace{
+  fill:none;stroke:var(--gold);stroke-width:1.6;
+  stroke-dasharray:2400;stroke-dashoffset:2400;
+  animation:draw 7s ease-out .4s forwards;
+  filter:drop-shadow(0 0 6px rgba(216,179,106,.45));
+}
+.route path.ghost{fill:none;stroke:rgba(216,179,106,.12);stroke-width:1}
+.route .node{fill:var(--gold)}
+.route .pulse{fill:none;stroke:var(--gold);opacity:0;animation:pulse 3.2s ease-out 4s infinite}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pulse{0%{opacity:.7;transform:scale(.4)}80%{opacity:0;transform:scale(2.4)}100%{opacity:0}}
+.route .node,.route .pulse{transform-box:fill-box;transform-origin:center}
+.hero-eyebrow{position:relative;display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+h1{
+  position:relative;
+  font-weight:700;
+  font-size:clamp(46px,9.2vw,132px);
+  line-height:.98;letter-spacing:-.025em;
+  text-transform:uppercase;
+  max-width:12ch;
+}
+h1 .serif{text-transform:none;letter-spacing:0;font-size:.92em}
+.hero-sub{
+  position:relative;margin-top:30px;max-width:520px;
+  color:var(--muted);font-size:clamp(15px,1.4vw,18px);line-height:1.65;
+}
+.hero-row{
+  position:relative;display:flex;align-items:flex-end;justify-content:space-between;
+  gap:40px;flex-wrap:wrap;margin-top:44px;
+}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 30px;border-radius:2px;
+  font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  transition:all .25s;
+}
+.btn-gold{background:var(--gold);color:var(--ink)}
+.btn-gold:hover{background:var(--bone)}
+.btn-ghost{border:1px solid var(--line);color:var(--bone)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.hero-stats{display:flex;gap:clamp(24px,4vw,56px)}
+.hstat .n{font-size:clamp(22px,2.6vw,34px);font-weight:700;letter-spacing:-.02em;color:var(--bone)}
+.hstat .n span{color:var(--gold)}
+.hstat .l{margin-top:4px}
+
+/* ---------- TICKER ---------- */
+.ticker{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  overflow:hidden;white-space:nowrap;padding:16px 0;
+  background:var(--panel);
+}
+.ticker-track{display:inline-flex;gap:64px;animation:scroll 36s linear infinite;padding-left:64px}
+.ticker-track span{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.ticker-track span b{color:var(--gold);font-weight:500}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- SECTIONS ---------- */
+section{padding:clamp(80px,12vh,150px) var(--pad)}
+.inner{max-width:var(--max);margin:0 auto}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:clamp(40px,6vh,72px);flex-wrap:wrap}
+h2{
+  font-weight:700;font-size:clamp(32px,4.6vw,60px);
+  letter-spacing:-.02em;line-height:1.05;text-transform:uppercase;max-width:16ch;
+}
+h2 .serif{text-transform:none}
+.sec-head .mono{padding-top:8px}
+
+/* thesis */
+.thesis{border-top:1px solid var(--line-soft)}
+.thesis p.big{
+  font-size:clamp(22px,3vw,38px);line-height:1.35;font-weight:500;
+  letter-spacing:-.01em;max-width:24ch;
+}
+.thesis .cols{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(40px,6vw,100px);align-items:start}
+.thesis .side p{color:var(--muted);margin-bottom:18px;font-size:15px}
+.thesis .side .mono{display:block;margin-bottom:22px;color:var(--gold-dim)}
+@media(max-width:820px){.thesis .cols{grid-template-columns:1fr}}
+
+/* how it works */
+.how{background:var(--panel);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-soft)}
+.step{background:var(--panel);padding:clamp(28px,3vw,44px);position:relative;transition:background .3s}
+.step:hover{background:#15151a}
+.step .k{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--gold);letter-spacing:.2em}
+.step h3{font-size:clamp(19px,1.8vw,24px);font-weight:600;margin:16px 0 12px;letter-spacing:-.01em}
+.step p{color:var(--muted);font-size:14.5px}
+@media(max-width:820px){.steps{grid-template-columns:1fr}}
+
+/* network */
+.net .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,90px);align-items:center}
+.net .stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+.net .cell{background:var(--obsidian);padding:clamp(24px,2.5vw,38px)}
+.net .cell .n{font-size:clamp(28px,3.2vw,44px);font-weight:700;letter-spacing:-.02em}
+.net .cell .n em{font-style:normal;color:var(--gold)}
+.net .cell .l{margin-top:6px}
+.net p.lead{color:var(--muted);margin-top:22px;max-width:46ch}
+.net ul{list-style:none;margin-top:28px}
+.net li{
+  display:flex;justify-content:space-between;gap:20px;
+  padding:14px 0;border-bottom:1px solid var(--line-soft);
+  font-size:14.5px;
+}
+.net li b{font-weight:600;color:var(--bone)}
+.net li span{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em}
+@media(max-width:820px){.net .split{grid-template-columns:1fr}}
+
+/* fleet / experience */
+.fleet{background:linear-gradient(to bottom,var(--obsidian),#0D0C0A 60%,var(--obsidian));border-top:1px solid var(--line-soft)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{
+  border:1px solid var(--line-soft);border-radius:4px;
+  padding:clamp(26px,2.6vw,40px);
+  background:rgba(16,16,19,.6);
+  transition:border-color .3s,transform .3s;
+}
+.card:hover{border-color:var(--line);transform:translateY(-4px)}
+.card .ic{color:var(--gold);margin-bottom:22px}
+.card h3{font-size:19px;font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
+.card p{color:var(--muted);font-size:14.5px}
+@media(max-width:820px){.cards{grid-template-columns:1fr}}
+
+/* partners band */
+.band{
+  padding:clamp(60px,9vh,110px) var(--pad);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:var(--panel);text-align:center;
+}
+.band p{
+  font-size:clamp(20px,2.6vw,32px);font-weight:500;letter-spacing:-.01em;
+  max-width:30ch;margin:0 auto;line-height:1.4;
+}
+
+/* contact */
+.contact .wrap{
+  display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(40px,6vw,100px);align-items:start;
+}
+.contact h2{max-width:14ch}
+.contact p.lead{color:var(--muted);margin-top:24px;max-width:42ch}
+.contact-list{list-style:none}
+.contact-list li{
+  display:flex;justify-content:space-between;align-items:baseline;gap:24px;
+  padding:20px 0;border-bottom:1px solid var(--line-soft);
+}
+.contact-list a{font-size:clamp(16px,1.6vw,20px);font-weight:500;color:var(--bone);transition:color .25s}
+.contact-list a:hover,.contact-list a:focus-visible{color:var(--gold)}
+.contact-list .loc{font-size:clamp(16px,1.6vw,20px);font-weight:500}
+@media(max-width:820px){.contact .wrap{grid-template-columns:1fr}}
+
+/* footer */
+footer{
+  padding:48px var(--pad) 40px;border-top:1px solid var(--line-soft);
+  display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;
+}
+footer .mono{font-size:10.5px}
+.foot-logo{font-weight:800;letter-spacing:.18em;text-transform:uppercase;font-size:15px}
+.foot-logo i{font-style:normal;color:var(--gold)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#top" aria-label="Jaureo home">
+    <b>Jaure<i>o</i></b>
+  </a>
+  <div class="navlinks">
+    <a href="#how" data-scramble-hover>How it works</a>
+    <a href="#network" data-scramble-hover>Network</a>
+    <a href="#fleet" data-scramble-hover>The fleet</a>
+    <a href="#partners" data-scramble-hover>Partners</a>
+  </div>
+  <a class="navcta" href="#contact">Contact</a>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <svg class="route" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path class="ghost" d="M-40 620 L180 620 L260 540 L520 540 L600 460 L940 460 L1020 380 L1250 380 L1330 300 L1480 300"/>
+    <path class="trace" d="M-40 680 L220 680 L320 580 L560 580 L640 500 L900 500 L1000 400 L1200 400 L1300 300 L1480 300"/>
+    <circle class="node" cx="320" cy="580" r="3.5"/>
+    <circle class="node" cx="640" cy="500" r="3.5"/>
+    <circle class="node" cx="1000" cy="400" r="3.5"/>
+    <circle class="pulse" cx="1000" cy="400" r="8"/>
+  </svg>
+
+  <div class="hero-eyebrow">
+    <span class="dot" aria-hidden="true"></span>
+    <span class="mono" data-scramble data-delay="300">Dallas–Fort Worth · Autonomous fleet operator</span>
+  </div>
+  <h1><span data-scramble data-delay="600">The city moves</span><br><span class="serif" data-scramble data-delay="1400">on its own.</span></h1>
+  <p class="hero-sub">Jaureo operates Tesla Cybercab fleets on the Tesla Robotaxi network — driverless, electric, and dispatched in seconds across the Metroplex. No driver. No wheel. No friction.</p>
+
+  <div class="hero-row">
+    <div class="hero-ctas">
+      <a class="btn btn-gold" href="#how">How it works</a>
+      <a class="btn btn-ghost" href="#network">The network</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="n"><span data-count="7.6" data-dec="1">0</span><span>M</span></div><div class="l mono">Metro residents</div></div>
+      <div class="hstat"><div class="n"><span data-count="24">0</span><span>/7</span></div><div class="l mono">Fleet operations</div></div>
+      <div class="hstat"><div class="n" data-count="0">0</div><div class="l mono">Drivers</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= TICKER ================= -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Driverless <b>·</b> Electric <b>·</b> On demand</span>
+    <span>DFW Airport <b>→</b> Downtown <b>18 min</b></span>
+    <span>Tesla Robotaxi Network <b>·</b> Operated by Jaureo</span>
+    <span>Arlington <b>·</b> Plano <b>·</b> Frisco <b>·</b> Fort Worth <b>·</b> Dallas</span>
+    <span>Zero tailpipe emissions <b>·</b> 100% electric</span>
+    <span>Driverless <b>·</b> Electric <b>·</b> On demand</span>
+    <span>DFW Airport <b>→</b> Downtown <b>18 min</b></span>
+    <span>Tesla Robotaxi Network <b>·</b> Operated by Jaureo</span>
+    <span>Arlington <b>·</b> Plano <b>·</b> Frisco <b>·</b> Fort Worth <b>·</b> Dallas</span>
+    <span>Zero tailpipe emissions <b>·</b> 100% electric</span>
+  </div>
+</div>
+
+<!-- ================= THESIS ================= -->
+<section class="thesis" id="about">
+  <div class="inner">
+    <div class="cols">
+      <div class="reveal">
+        <p class="big">Tesla built the car that drives itself. <span class="serif">Someone still has to run the fleet.</span></p>
+      </div>
+      <div class="side reveal">
+        <span class="mono">Why Jaureo exists</span>
+        <p>Autonomy solved the driver. It didn't solve the operation — charging, cleaning, staging, insurance, compliance, and putting the right car on the right corner at 5pm on a Friday.</p>
+        <p>That's Jaureo. We own and operate Cybercab fleets on Tesla's network across Dallas–Fort Worth, so every ride shows up charged, spotless, and on time. Tesla provides the autonomy. We provide the standard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW ================= -->
+<section class="how" id="how">
+  <div class="inner">
+    <div class="sec-head">
+      <h2 class="reveal"><span data-scramble-scroll>Summon. Board.</span> <span class="serif" data-scramble-scroll data-delay="500">Arrive.</span></h2>
+      <span class="mono">How it works</span>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <span class="k">01</span>
+        <h3>Request in the Tesla app</h3>
+        <p>Open the Tesla Robotaxi app and set your destination. A Jaureo-operated Cybercab is dispatched from the nearest staging depot — typically minutes away.</p>
+      </div>
+      <div class="step reveal">
+        <span class="k">02</span>
+        <h3>Step into your Cybercab</h3>
+        <p>Two seats, no wheel, no pedals. Your phone unlocks the doors. Climate is already set. The cabin is inspected and detailed between every shift.</p>
+      </div>
+      <div class="step reveal">
+        <span class="k">03</span>
+        <h3>The city glides past</h3>
+        <p>Unsupervised full self-driving, monitored 24/7 by Jaureo fleet operations. Fixed upfront pricing. Step out and walk away — payment is automatic.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NETWORK ================= -->
+<section class="net" id="network">
+  <div class="inner">
+    <div class="sec-head">
+      <h2 class="reveal"><span data-scramble-scroll>Built for the</span> <span class="serif" data-scramble-scroll data-delay="500">Metroplex.</span></h2>
+      <span class="mono">The network</span>
+    </div>
+    <div class="split">
+      <div class="reveal">
+        <p class="lead">Dallas–Fort Worth is the fourth-largest metro in America and one of its fastest growing — sprawling, car-bound, and underserved by transit. It's the single best market in the country for autonomous ride-hailing, and it's home.</p>
+        <ul>
+          <li><b>DFW International & Love Field</b><span>Airport corridors</span></li>
+          <li><b>Arlington entertainment district</b><span>Event surge</span></li>
+          <li><b>Legacy West · Plano · Frisco</b><span>Corporate campuses</span></li>
+          <li><b>Downtown & Uptown Dallas</b><span>Urban core</span></li>
+          <li><b>Fort Worth & mid-cities</b><span>Commuter corridors</span></li>
+        </ul>
+      </div>
+      <div class="stats reveal">
+        <div class="cell"><div class="n"><span data-scramble-scroll>7.6</span><em>M</em></div><div class="l mono">Residents, 11 counties</div></div>
+        <div class="cell"><div class="n"><span data-scramble-scroll data-delay="150">~40</span><em>M</em></div><div class="l mono">Annual airport trips</div></div>
+        <div class="cell"><div class="n"><span data-scramble-scroll data-delay="300">400</span><em>K</em></div><div class="l mono">Arlington residents, zero transit</div></div>
+        <div class="cell"><div class="n"><span data-scramble-scroll data-delay="450">+150</span><em>K</em></div><div class="l mono">New residents each year</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FLEET ================= -->
+<section class="fleet" id="fleet">
+  <div class="inner">
+    <div class="sec-head">
+      <h2 class="reveal"><span data-scramble-scroll>The gold standard,</span> <span class="serif" data-scramble-scroll data-delay="500">operated.</span></h2>
+      <span class="mono">The fleet</span>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="ic" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="15" cy="15" r="11"/><path d="M15 8v7l5 3"/></svg>
+        </div>
+        <h3>Always staged, never stale</h3>
+        <p>Depot-based operations keep cars charged, detailed, and positioned where demand actually happens — airports at dawn, stadiums at nine, campuses at five.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3l10 5v7c0 6-4.5 10-10 12C9.5 25 5 21 5 15V8z"/><path d="M11 15l3 3 5-6"/></svg>
+        </div>
+        <h3>Overseen by humans, 24/7</h3>
+        <p>Every vehicle is monitored by Jaureo fleet operations around the clock, with first-responder protocols filed with the State of Texas. Autonomy with accountability.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20c3-8 8-13 11-13s8 5 11 13"/><path d="M4 20h22"/><circle cx="15" cy="24" r="2"/></svg>
+        </div>
+        <h3>Electric, end to end</h3>
+        <p>Purpose-built Cybercabs charged on dedicated depot infrastructure. Zero tailpipe emissions, wireless charging, and a cost per mile that legacy fleets can't touch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BAND ================= -->
+<section class="band" id="partners">
+  <p class="reveal">Venues, hotels, campuses, and cities — <span class="serif">put a fleet at your front door.</span> Jaureo partners with DFW institutions on dedicated capacity and event-day operations.</p>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="inner wrap">
+    <div class="reveal">
+      <h2><span data-scramble-scroll>Get in</span> <span class="serif" data-scramble-scroll data-delay="400">touch.</span></h2>
+      <p class="lead">Jaureo launches with the Tesla Robotaxi network in Dallas–Fort Worth. For partnerships, investment, or press, reach us directly.</p>
+    </div>
+    <div class="reveal">
+      <ul class="contact-list">
+        <li><span class="mono">General</span><a href="mailto:hello@jaureo.com">hello@jaureo.com</a></li>
+        <li><span class="mono">Partnerships</span><a href="mailto:partners@jaureo.com">partners@jaureo.com</a></li>
+        <li><span class="mono">Press</span><a href="mailto:press@jaureo.com">press@jaureo.com</a></li>
+        <li><span class="mono">Headquarters</span><span class="loc">Dallas, Texas</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-logo">Jaure<i>o</i></span>
+  <span class="mono">Dallas–Fort Worth, Texas</span>
+  <span class="mono">© 2026 Jaureo, Inc. · jaureo.com</span>
+</footer>
+
+<script>
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- reveal ---------- */
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- scramble / decode ---------- */
+const GLYPHS='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/\\|=+*#';
+function scramble(el,{duration=900}={}){
+  if(REDUCED){el.style.visibility='visible';return}
+  const original=el.dataset.text ?? (el.dataset.text=el.textContent);
+  const len=original.length;
+  const start=performance.now();
+  el.style.visibility='visible';
+  el.classList.add('scrambling');
+  function frame(now){
+    const t=Math.min((now-start)/duration,1);
+    const settled=Math.floor(t*len);
+    let out='';
+    for(let i=0;i<len;i++){
+      const ch=original[i];
+      if(i<settled||ch===' '||ch==='·'||ch==='–'){out+=ch}
+      else{out+=GLYPHS[Math.random()*GLYPHS.length|0]}
+    }
+    el.textContent=out;
+    if(t<1){requestAnimationFrame(frame)}
+    else{el.textContent=original;el.classList.remove('scrambling')}
+  }
+  requestAnimationFrame(frame);
+}
+/* on load */
+document.querySelectorAll('[data-scramble]').forEach(el=>{
+  if(REDUCED)return;
+  el.style.visibility='hidden';
+  setTimeout(()=>scramble(el,{duration:1100}),+(el.dataset.delay||0));
+});
+/* on scroll into view */
+const sio=new IntersectionObserver(es=>{es.forEach(e=>{
+  if(e.isIntersecting){
+    const el=e.target;
+    if(REDUCED)return sio.unobserve(el);
+    el.style.visibility='hidden';
+    setTimeout(()=>scramble(el,{duration:900}),+(el.dataset.delay||0));
+    sio.unobserve(el);
+  }})},{threshold:.4});
+document.querySelectorAll('[data-scramble-scroll]').forEach(el=>sio.observe(el));
+/* on hover */
+document.querySelectorAll('[data-scramble-hover]').forEach(el=>{
+  let busy=false;
+  el.addEventListener('mouseenter',()=>{
+    if(busy||REDUCED)return;busy=true;
+    scramble(el,{duration:450});
+    setTimeout(()=>busy=false,500);
+  });
+});
+
+/* ---------- count-up ---------- */
+const cio=new IntersectionObserver(es=>{es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const el=e.target,target=parseFloat(el.dataset.count),dec=+(el.dataset.dec||0);
+  cio.unobserve(el);
+  if(REDUCED){el.textContent=target.toFixed(dec);return}
+  const start=performance.now(),dur=1400;
+  function tick(now){
+    const t=Math.min((now-start)/dur,1);
+    const eased=1-Math.pow(1-t,3);
+    el.textContent=(target*eased).toFixed(dec);
+    if(t<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+/* ---------- hero parallax ---------- */
+const grid=document.querySelector('.grid-bg'),routeSvg=document.querySelector('.route');
+if(!REDUCED&&grid){
+  addEventListener('scroll',()=>{
+    const y=scrollY;
+    if(y<innerHeight*1.2){
+      grid.style.transform=`translateY(${y*.18}px)`;
+      routeSvg.style.transform=`translateY(${y*.09}px)`;
+      grid.style.opacity=routeSvg.style.opacity=Math.max(1-y/(innerHeight*.9),0);
+    }
+  },{passive:true});
+}
+</script>
+</body>
+</html>
